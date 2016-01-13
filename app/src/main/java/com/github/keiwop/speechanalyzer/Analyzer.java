@@ -103,6 +103,8 @@ public class Analyzer{
 	}
 
 	public void setLanguageFR(){
-//		TODO
+		keywords_map.put("light_on", Arrays.asList("allume:lumière"));
+		commands_map.put("light_on", "light:all:on");
+		answers_map.put("light_on", Arrays.asList("Les lumières sont allumées", "C'est fait !", "C'est trop lumineux pour moi"));
 	}
 }

@@ -31,11 +31,9 @@ public class MainText extends Observable{
 	}
 
 	public void setFirstMatch(String first_match){
-//		synchronized(this){
 		setAnswer("");
 		setCommand("");
 		this.first_match = first_match;
-//		}
 		setChanged();
 		notifyObservers();
 		analyzeMatch(first_match);
@@ -92,7 +90,6 @@ public class MainText extends Observable{
 	}
 
 	public void analyzeMatch(String match){
-		match += ".";
 		for(Map.Entry<String, List<String>> entry : analyzer.getKeywordsMap().entrySet()){
 			System.out.println("Answer: " + entry.getKey() + "\nKeywords: " + entry.getValue());
 			if(matchContains(match, entry.getValue())){
@@ -105,10 +102,23 @@ public class MainText extends Observable{
 
 	public boolean matchContains(String match, List<String> matchesList){
 		Log.d(D_LOG, "matchesList: " + matchesList.toString());
+		match += ".";
+//		boolean result = false;
+		int count_words = 0;
+		int count_words_found = 0;
 		for(String str : matchesList){
 			System.out.println("Match: " + match + "\t\tKeyword: " + str);
-			if(match.toLowerCase().contains(str)){
-				return true;
+			String[] splitStr = str.split(":");
+			System.out.println("SplitStr: " + splitStr);
+			count_words = splitStr.length;
+			count_words_found = 0;
+			for(String keyword: splitStr){
+				if(match.toLowerCase().contains(keyword)){
+					count_words_found += 1;
+					if(count_words_found >= count_words){
+						return true;
+					}
+				}
 			}
 		}
 		return false;
